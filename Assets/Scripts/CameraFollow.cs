@@ -5,16 +5,21 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public GameObject target;
+    public float minDistance = 1f;
 
     private Rigidbody2D rb;
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Vector2 dir = target.transform.position - transform.position;
-        rb.AddForce(dir);
+        if (dir.magnitude > minDistance) {
+            rb.AddForce(dir);
+        }
+        else {
+            rb.velocity = Vector2.zero;
+        }
     }
 }

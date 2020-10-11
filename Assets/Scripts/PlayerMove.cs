@@ -19,6 +19,7 @@ public class PlayerMove : MonoBehaviour
 
 
     private void OnWalk(InputValue value) {
+        Debug.Log(value);
         mover.dir = value.Get<Vector2>();
     }
 

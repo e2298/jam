@@ -7,7 +7,7 @@
             "actions": [
                 {
                     "name": "walk",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "511e0bc3-42c1-46ac-83c3-118d01abedcb",
                     "expectedControlType": "Button",
                     "processors": "",
