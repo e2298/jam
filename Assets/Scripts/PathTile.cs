@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public struct PathTile {
-    int dirmask;
+    public int dirmask;
 
     public bool left {
         get {

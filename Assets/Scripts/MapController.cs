@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class MapController : MonoBehaviour
 {
@@ -10,31 +11,85 @@ public class MapController : MonoBehaviour
     int width;
     int height;
     Queue<(int, int)> q;
+    public GameObject FloorTilemap;
+    private Tilemap tm;
+    int offsetX, offsetY;
 
     // Start is called before the first frame update
     void Start()
     {
+        tm = FloorTilemap.GetComponent<Tilemap>();
+        BoundsInt bounds = tm.cellBounds;
+        TileBase[] tileObjects = tm.GetTilesBlock(bounds);
+        width = bounds.size.x;
+        height = bounds.size.y;
+
+        int minx = 1000000000;
+        int miny = 1000000000;
+        int maxy = -1000000000;
+        int maxx = -1000000000;
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                TileBase tile = tileObjects[x + y * width];
+                if (tile != null) {
+                    minx = Mathf.Min(minx, x);
+                    miny = Mathf.Min(miny, y);
+                    maxx = Mathf.Max(maxx, x);
+                    maxy = Mathf.Max(maxy, y);
+                }
+            }
+        }
+        offsetX = minx;
+        offsetY = miny;
+        width = maxx - minx + 1;
+        height = maxy - miny + 1;
+        tiles = new PathTile[width, height];
+        bool[,] isTile = new bool[width, height];
+
+        for(int x = 0; x < bounds.size.x; x++) {
+            for(int y = 0; y < bounds.size.y; y++) {
+                TileBase tile = tileObjects[x + y * bounds.size.x];
+                if(tile != null) {
+                    isTile[x - minx, y - miny] = true;
+                }
+            }
+        }
+
+        for(int x = 0; x < width; x++) {
+            for(int y = 0; y < height; y++) {
+                if(x > 0 && isTile[x - 1, y]) {
+                    tiles[x, y].left = true;
+                }
+                if(x+1 < width && isTile[x + 1, y]) {
+                    tiles[x, y].right = true;
+                }
+                if(y > 0 && isTile[x, y - 1]) {
+                    tiles[x, y].down = true;
+                }
+                if(y+1 < height && isTile[x, y + 1]) {
+                    tiles[x, y].up = true;
+                }
+            }
+        }
+
+
         q = new Queue<(int, int)>(width * height);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private Vector2Int WorldToGrid(Vector2 pos) {
+        var r = tm.WorldToCell(pos);
+        return (Vector2Int)r; 
     }
 
-    private Vector2 WorldToGrid(Vector2 pos) {
-        return Vector2.zero;
-    }
-
-    private Vector2 GridToWorld(Vector2 pos) {
-        return Vector2.zero;
+    private Vector2 GridToWorld(Vector2Int pos) {
+        return tm.GetCellCenterWorld(new Vector3Int(pos.x, pos.y, 0));
     }
 
     public Vector2 ShortestPathDirection(Vector2 source, Vector2 dest) {
-        var (s,t) = ShortestPathFirst(source, dest, 2);
+        var (s,t) = ShortestPathFirst(dest, source, 2);
         if (s >= 2) {
-            return t[1] - t[0];
+            //Debug.Log((t[1], t[0]));
+            return (t[1] - t[0]).normalized;
         }
         else { 
             return Vector2.zero;
@@ -57,48 +112,48 @@ public class MapController : MonoBehaviour
             int x, y;
             (x, y) = q.Dequeue();
 
-            if (tiles[x, y].up) {
+            if (tiles[x, y].right) {
                 if (!seen[x + 1, y]) {
                     prev[x + 1, y] = (x, y);
+                    seen[x + 1, y] = true;
                     if((x+1, y) == actualDest) {
                         break;
                     }
-                    seen[x + 1, y] = true;
                     q.Enqueue((x + 1, y));
                 }
             }
-            if (tiles[x, y].down) {
+            if (tiles[x, y].left) {
                 if (!seen[x - 1, y]) {
                     prev[x - 1, y] = (x, y);
+                    seen[x - 1, y] = true;
                     if((x-1, y) == actualDest) {
                         break;
                     }
-                    seen[x - 1, y] = true;
                     q.Enqueue((x - 1, y));
                 }
             }
-            if (tiles[x, y].right) {
+            if (tiles[x, y].up) {
                 if (!seen[x, y + 1]) {
                     prev[x, y + 1] = (x, y);
+                    seen[x, y + 1] = true;
                     if((x, y+1) == actualDest) {
                         break;
                     }
-                    seen[x, y + 1] = true;
                     q.Enqueue((x, y + 1));
                 }
             }
-            if (tiles[x, y].left) {
+            if (tiles[x, y].down) {
                 if (!seen[x, y - 1]) {
                     prev[x, y - 1] = (x, y);
+                    seen[x, y - 1] = true;
                     if((x, y-1) == actualDest) {
                         break;
                     }
-                    seen[x, y - 1] = true;
                     q.Enqueue((x, y - 1));
                 }
             }
         }
-        if(!seen[actualSource.Item1, actualSource.Item2]) {
+        if(!seen[actualDest.Item1, actualDest.Item2]) {
             return (0, new Vector2[0]);
         }
 
@@ -110,7 +165,7 @@ public class MapController : MonoBehaviour
             }
             int x, y;
             (x, y) = cur;
-            r[i] = GridToWorld(new Vector2(x, y));
+            r[i] = GridToWorld(new Vector2Int(x, y));
             cur = prev[x, y];
         }
         return (n, r);

@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Alert : MonoBehaviour
 {
-    public Vector2 target;
-    public int targetLayer;
+    public Transform target;
     public float speed;
+    public Vector2 lastTarget;
 
     MapController map;
     CharacterMove mover;
@@ -22,12 +22,12 @@ public class Alert : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        mover.dir = map.ShortestPathDirection(transform.position, target);
+        mover.dir = map.ShortestPathDirection(transform.position, lastTarget);
         mover.speed = speed;
-        var cast = Physics2D.Raycast(transform.position, target - (Vector2)transform.position);
-        if(cast.collider.gameObject.layer == targetLayer) {
-            target = cast.collider.gameObject.transform.position;
-        } else if(((Vector2)transform.position - target).magnitude < 0.01f) {
+        var cast = Physics2D.Raycast(transform.position, target.position - transform.position);
+        if(cast.collider && cast.collider.gameObject.transform == target) {
+            lastTarget = cast.collider.gameObject.transform.position;
+        } else if((transform.position - target.position).magnitude < 0.01f) {
             gameObject.SendMessage("OnChaseEnd");
         }
     }
