@@ -6,8 +6,9 @@ public class Door : MonoBehaviour
 {
     public Sprite closed;
     public Sprite opened;
+    public int switches = 1;
     SpriteRenderer sr;
-    CapsuleCollider2D collider;
+    CapsuleCollider2D cl;
     private MapController mc;
     Vector2 offset = new Vector2(0.1f, -1);
     void Start()
@@ -15,8 +16,18 @@ public class Door : MonoBehaviour
         mc = GameObject.Find("Map").GetComponent<MapController>();
         sr = GetComponent<SpriteRenderer>();
         sr.sprite = closed;
-        collider = GetComponent<CapsuleCollider2D>();
-        collider.enabled = true;
+        cl = GetComponent<CapsuleCollider2D>();
+        cl.enabled = true;
+    }
+
+
+    private void FixedUpdate() {
+        if(switches == 0) {
+            open();
+        }
+        else {
+            close();
+        }
     }
 
     public void close() {
@@ -27,7 +38,7 @@ public class Door : MonoBehaviour
         mc.tiles[x, y - 1].up = false;
 
         sr.sprite = closed;
-        collider.enabled = true;
+        cl.enabled = true;
     }
         
     public void open() {
@@ -38,6 +49,6 @@ public class Door : MonoBehaviour
         mc.tiles[x, y - 1].up = true;
 
         sr.sprite = opened;
-        collider.enabled = false;
+        cl.enabled = false;
     }
 }

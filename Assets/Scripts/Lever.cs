@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class Lever : MonoBehaviour
@@ -24,11 +23,11 @@ public class Lever : MonoBehaviour
         state = !state;
         if (state) {
             sr.sprite = down;
-            doorscript.open();
+            doorscript.switches--;
         }
         else {
             sr.sprite = up;
-            doorscript.close();
+            doorscript.switches++;
         }
     }
 }

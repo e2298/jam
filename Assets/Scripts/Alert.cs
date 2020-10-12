@@ -35,7 +35,7 @@ public class Alert : MonoBehaviour
             gameObject.SendMessage("OnChaseEnd");
             return;
         }
-        var cast = Physics2D.Raycast(transform.position, target.position - transform.position, reacquireRange);
+        var cast = Physics2D.Raycast(transform.position, target.position - transform.position, reacquireRange, Physics2D.DefaultRaycastLayers ^ 1<<11);
         if(cast.collider && cast.collider.gameObject.transform == target) {
             lastTarget = cast.collider.gameObject.transform.position;
         } else if((transform.position - target.position).magnitude < 0.01f) {

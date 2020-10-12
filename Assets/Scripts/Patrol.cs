@@ -6,7 +6,7 @@ using UnityEngine.Playables;
 public class Patrol : MonoBehaviour
 {
     public Vector2[] points;
-    private int pointIdx = 0;
+    public int pointIdx = 0;
     public bool inRoute = true;
     public float speed;
 
@@ -25,6 +25,7 @@ public class Patrol : MonoBehaviour
             pointIdx++;
             pointIdx %= points.Length;
             inRoute = true;
+            Debug.Log("asgfasg");
         }
 
         mover.speed = speed;

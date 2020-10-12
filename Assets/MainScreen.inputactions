@@ -1,0 +1,44 @@
+{
+    "name": "MainScreen",
+    "maps": [
+        {
+            "name": "def",
+            "id": "b147eb4a-1fa9-4057-819c-87f24be375db",
+            "actions": [
+                {
+                    "name": "start",
+                    "type": "Button",
+                    "id": "4e9fe543-98be-4779-a3d3-f1ac3c907468",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "850e1131-6f71-4c13-a0c8-a5823e1087ea",
+                    "path": "<Keyboard>/anyKey",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "start",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d083934b-46d7-4f22-abbf-7220c6820521",
+                    "path": "<Mouse>/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "start",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

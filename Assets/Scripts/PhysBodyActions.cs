@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PhysBodyActions : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PhysBodyActions : MonoBehaviour
     private CameraFollow fl;
     public GameObject allGhosts;
     public GameObject playerdown;
+    public Vector2 end;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +20,9 @@ public class PhysBodyActions : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if ((end - (Vector2)transform.position).magnitude < 0.5f) {
+            SceneManager.LoadScene(3);
+        }
     }
     
     void OnTransform() {
