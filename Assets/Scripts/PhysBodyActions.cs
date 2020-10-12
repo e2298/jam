@@ -7,6 +7,8 @@ public class PhysBodyActions : MonoBehaviour
 {
     public GameObject ghost;
     private CameraFollow fl;
+    public GameObject allGhosts;
+    public GameObject playerdown;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,9 +16,8 @@ public class PhysBodyActions : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
     }
     
     void OnTransform() {
@@ -25,5 +26,9 @@ public class PhysBodyActions : MonoBehaviour
         ghost.GetComponent<GhostActions>().body = gameObject;
         gameObject.SetActive(false);
         fl.target = ghost;
+        allGhosts.BroadcastMessage("GhostMode", true);
+        
+        playerdown.transform.position = transform.position;
+        playerdown.SetActive(true);
     }
 }

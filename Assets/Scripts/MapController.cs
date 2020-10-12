@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 
 public class MapController : MonoBehaviour
 {
-    PathTile[,] tiles;
+    public PathTile[,] tiles;
     int width;
     int height;
     Queue<(int, int)> q;

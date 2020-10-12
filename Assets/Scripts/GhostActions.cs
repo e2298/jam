@@ -9,6 +9,8 @@ public class GhostActions : MonoBehaviour
     public float range;
     private CameraFollow fl;
     private Rigidbody2D rb;
+    public GameObject allGhosts;
+    public GameObject playerDown;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,5 +30,7 @@ public class GhostActions : MonoBehaviour
         gameObject.SetActive(false);
         body.SetActive(true);
         fl.target = body;
+        allGhosts.BroadcastMessage("GhostMode", false);
+        playerDown.SetActive(false);
     }
 }

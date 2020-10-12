@@ -21,7 +21,7 @@ public class Patrol : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(((Vector2)transform.position - points[pointIdx]).magnitude < 0.1f) {
+        if(((Vector2)transform.position - points[pointIdx]).magnitude < 0.5f) {
             pointIdx++;
             pointIdx %= points.Length;
             inRoute = true;

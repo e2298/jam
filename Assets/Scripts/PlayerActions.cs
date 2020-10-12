@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerActions : MonoBehaviour
 {
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +15,12 @@ public class PlayerActions : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void OnUse() {
+        var cast = Physics2D.CircleCast(transform.position, 0.5f, Vector2.one, 0, 1<<10);
+        if (cast.collider) {
+            cast.collider.gameObject.GetComponent<Lever>().OnFlip();
+        }
     }
 }
