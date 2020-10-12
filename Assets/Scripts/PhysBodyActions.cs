@@ -10,7 +10,7 @@ public class PhysBodyActions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        fl = Camera.main.GetComponent<CameraFollow>(); 
+        fl = Camera.main.GetComponent<CameraFollow>();
     }
 
     // Update is called once per frame
