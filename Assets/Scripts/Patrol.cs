@@ -7,7 +7,7 @@ public class Patrol : MonoBehaviour
 {
     public Vector2[] points;
     private int pointIdx = 0;
-    bool inRoute = true;
+    public bool inRoute = true;
     public float speed;
 
     MapController map;

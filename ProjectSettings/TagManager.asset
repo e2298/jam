@@ -41,15 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: light
-    uniqueID: 1222824065
-    locked: 0
-  - name: character
-    uniqueID: 1925180507
+  - name: background
+    uniqueID: 170615131
     locked: 0
   - name: item
     uniqueID: 2074753269
     locked: 0
-  - name: background
-    uniqueID: 170615131
+  - name: character
+    uniqueID: 1925180507
     locked: 0
