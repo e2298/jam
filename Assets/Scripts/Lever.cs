@@ -23,11 +23,11 @@ public class Lever : MonoBehaviour
         state = !state;
         if (state) {
             sr.sprite = down;
-            doorscript.switches--;
+            transform.parent.gameObject.BroadcastMessage("dec");
         }
         else {
             sr.sprite = up;
-            doorscript.switches++;
+            transform.parent.gameObject.BroadcastMessage("inc");
         }
     }
 }

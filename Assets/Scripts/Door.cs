@@ -30,12 +30,20 @@ public class Door : MonoBehaviour
         }
     }
 
+    void dec() {
+        switches--;
+    }
+
+    void inc() {
+        switches++;
+    }
+
     public void close() {
         int x, y;
         x = (int)transform.position.x;
         y = (int)transform.position.y;
-        mc.tiles[x, y].down = false;
-        mc.tiles[x, y - 1].up = false;
+        //mc.tiles[x, y].down = false;
+        //mc.tiles[x, y - 1].up = false;
 
         sr.sprite = closed;
         cl.enabled = true;
@@ -45,8 +53,8 @@ public class Door : MonoBehaviour
         int x, y;
         x = (int)transform.position.x;
         y = (int)transform.position.y;
-        mc.tiles[x, y].down = true;
-        mc.tiles[x, y - 1].up = true;
+        //mc.tiles[x, y].down = true;
+        //mc.tiles[x, y - 1].up = true;
 
         sr.sprite = opened;
         cl.enabled = false;
